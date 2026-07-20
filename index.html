@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="theme-color"
+        content="#22c55e">
+
+    <title>BloxdTool</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css">
+
+</head>
+
+<body>
+
+    <!-- ===========================
+         Header
+    ============================ -->
+
+    <header class="header">
+
+        <h1>🟩 BloxdTool</h1>
+
+        <p>
+            Utility Toolkit for Bloxd.io
+        </p>
+
+    </header>
+
+    <!-- ===========================
+         Main
+    ============================ -->
+
+    <main class="container">
+
+        <!-- =======================
+             Name Finder
+        ======================== -->
+
+        <section class="card">
+
+            <h2>📍 名札座標推定</h2>
+
+            <p class="description">
+
+                現在地と名札までの距離を入力して、
+                推定座標を計算します。
+
+            </p>
+
+            <div class="input-group">
+
+                <label for="playerX">
+                    現在地 X
+                </label>
+
+                <input
+                    id="playerX"
+                    type="number"
+                    placeholder="例: 1250">
+
+                <label for="playerZ">
+                    現在地 Z
+                </label>
+
+                <input
+                    id="playerZ"
+                    type="number"
+                    placeholder="例: -340">
+
+                <label for="distance">
+                    距離 (m)
+                </label>
+
+                <input
+                    id="distance"
+                    type="number"
+                    placeholder="例: 86">
+
+            </div>
+
+            <div class="button-group">
+
+                <button id="addMeasurement">
+
+                    ＋ 測定を追加
+
+                </button>
+
+                <button id="clearMeasurements">
+
+                    🗑 測定削除
+
+                </button>
+
+                <button id="solveButton">
+
+                    🎯 推定開始
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- =======================
+             Measurements
+        ======================== -->
+
+        <section class="card">
+
+            <h2>📋 測定一覧</h2>
+
+            <div id="measurementList">
+
+                <p class="placeholder">
+
+                    まだ測定データはありません。
+
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- =======================
+             Result
+        ======================== -->
+
+        <section class="card">
+
+            <h2>⭐ 推定結果</h2>
+
+            <div id="result">
+
+                <p class="placeholder">
+
+                    推定開始を押すと表示されます。
+
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- =======================
+             Map
+        ======================== -->
+
+        <section class="card">
+
+            <h2>🗺️ マップ</h2>
+
+            <canvas
+                id="mapCanvas"
+                width="900"
+                height="900">
+
+            </canvas>
+
+        </section>
+
+        <!-- =======================
+             Future Tools
+        ======================== -->
+
+        <section class="card">
+
+            <h2>🚀 今後追加予定</h2>
+
+            <ul class="todo-list">
+
+                <li>🧱 クラフト素材計算機</li>
+
+                <li>🌡️ ヒートマップ表示</li>
+
+                <li>💾 JSON保存・読み込み</li>
+
+                <li>📱 PWA対応</li>
+
+                <li>👥 トライブ管理</li>
+
+            </ul>
+
+        </section>
+
+    </main>
+
+    <!-- ===========================
+         Footer
+    ============================ -->
+
+    <footer class="footer">
+
+        <p>
+
+            BloxdTool v0.3.0
+
+        </p>
+
+        <p>
+
+            Made for Bloxd.io Players
+
+        </p>
+
+    </footer>
+
+    <!-- ===========================
+         JavaScript
+    ============================ -->
+
+    <script src="js/solver.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
