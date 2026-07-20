@@ -209,4 +209,113 @@ class Solver {
 
     }
 
+        /**
+     * 指定範囲を探索する
+     * @param {number} minX
+     * @param {number} maxX
+     * @param {number} minZ
+     * @param {number} maxZ
+     * @param {number} step
+     * @returns {{x:number,z:number,error:number}}
+     */
+    searchArea(minX, maxX, minZ, maxZ, step) {
+
+        let best = {
+            x: 0,
+            z: 0,
+            error: Infinity
+        };
+
+        for (let x = minX; x <= maxX; x += step) {
+
+            for (let z = minZ; z <= maxZ; z += step) {
+
+                const error = this.weightedError(x, z);
+
+                if (error < best.error) {
+
+                    best = {
+                        x,
+                        z,
+                        error
+                    };
+
+                }
+
+            }
+
+        }
+
+        return best;
+
+    }
+
+    /**
+     * 100m探索
+     */
+    coarseSearch() {
+
+        const b = this.getBounds();
+
+        return this.searchArea(
+            b.minX,
+            b.maxX,
+            b.minZ,
+            b.maxZ,
+            100
+        );
+
+    }
+
+    /**
+     * 20m探索
+     */
+    mediumSearch() {
+
+        const coarse = this.coarseSearch();
+
+        return this.searchArea(
+            coarse.x - 100,
+            coarse.x + 100,
+            coarse.z - 100,
+            coarse.z + 100,
+            20
+        );
+
+    }
+
+    /**
+     * 5m探索
+     */
+    fineSearch() {
+
+        const medium = this.mediumSearch();
+
+        return this.searchArea(
+            medium.x - 20,
+            medium.x + 20,
+            medium.z - 20,
+            medium.z + 20,
+            5
+        );
+
+    }
+
+    /**
+     * 1m探索
+     */
+    finalSearch() {
+
+        const fine = this.fineSearch();
+
+        return this.searchArea(
+            fine.x - 5,
+            fine.x + 5,
+            fine.z - 5,
+            fine.z + 5,
+            1
+        );
+
+    }
+    
 }
