@@ -387,5 +387,3 @@ function solveMeasurements(measurements) {
     return solver.solve();
 
 }
-
-}
