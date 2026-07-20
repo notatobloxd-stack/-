@@ -319,3 +319,73 @@ class Solver {
     }
     
 }
+
+    /**
+     * 信頼度を計算する
+     * @param {number} averageError
+     * @param {number} maxError
+     * @returns {number}
+     */
+    calculateConfidence(averageError, maxError) {
+
+        // 誤差から基本スコアを計算
+        let score = 100;
+
+        score -= averageError * 8;
+        score -= maxError * 2;
+
+        // 測定回数ボーナス
+        score += Math.min(this.measurements.length * 2, 10);
+
+        // 0～100に丸める
+        return Math.max(0, Math.min(100, Math.round(score)));
+
+    }
+
+    /**
+     * 座標を推定する
+     * @returns {Object}
+     */
+    solve() {
+
+        const startTime = performance.now();
+
+        // 最終探索
+        const best = this.finalSearch();
+
+        const averageError = this.averageError(best.x, best.z);
+        const maxError = this.maxError(best.x, best.z);
+
+        const confidence = this.calculateConfidence(
+            averageError,
+            maxError
+        );
+
+        const endTime = performance.now();
+
+        return {
+            x: best.x,
+            z: best.z,
+            averageError,
+            maxError,
+            confidence,
+            searchTime: Number((endTime - startTime).toFixed(2)),
+            measurements: this.measurements.length
+        };
+
+    }
+
+}
+
+/**
+ * app.js から呼び出す関数
+ * @param {Array} measurements
+ * @returns {Object}
+ */
+function solveMeasurements(measurements) {
+
+    const solver = new Solver(measurements);
+
+    return solver.solve();
+
+}
