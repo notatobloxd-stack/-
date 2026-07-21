@@ -62,6 +62,16 @@ solveButton.addEventListener(
     solveMeasurements
 );
 
+distanceInput.addEventListener("keydown", event => {
+
+    if (event.key === "Enter") {
+
+        addMeasurement();
+
+    }
+
+});
+
 // ===============================
 // 測定追加
 // ===============================
