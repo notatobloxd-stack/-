@@ -380,7 +380,7 @@ class Solver {
  * @param {Array} measurements
  * @returns {Object}
  */
-function solveMeasurements(measurements) {
+function solveCoordinates(measurements) {
 
     const solver = new Solver(measurements);
 
