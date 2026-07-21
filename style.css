@@ -397,4 +397,18 @@ button:active{
 
     }
 
+   .deleteMeasurement{
+
+    margin-top:12px;
+
+    background:#ef4444;
+
+}
+
+.deleteMeasurement:hover{
+
+    background:#dc2626;
+
+}
+
 }
