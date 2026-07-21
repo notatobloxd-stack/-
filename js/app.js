@@ -139,47 +139,51 @@ function renderMeasurements() {
 
     measurementList.innerHTML = "";
 
-    if (
-        measurements.length === 0
-    ) {
+    if (measurements.length === 0) {
 
         measurementList.innerHTML =
-
-        "<p class='placeholder'>まだ測定データはありません。</p>";
+            "<p class='placeholder'>まだ測定データはありません。</p>";
 
         return;
 
     }
 
-    measurements.forEach(
+    measurements.forEach((m, index) => {
 
-        (m, index) => {
+        const div = document.createElement("div");
 
-            const div =
-                document.createElement("div");
+        div.className = "measurement";
 
-            div.className =
-                "measurement";
-
-            div.innerHTML =
-
-            `
+        div.innerHTML = `
             <strong>#${index + 1}</strong><br>
 
             X : ${m.x}<br>
-
             Z : ${m.z}<br>
-
             Distance : ${m.distance}m
-            `;
 
-            measurementList.appendChild(
-                div
-            );
+            <br><br>
 
-        }
+            <button class="deleteMeasurement" data-index="${index}">
+                🗑 この測定を削除
+            </button>
+        `;
 
-    );
+        measurementList.appendChild(div);
+
+    });
+
+    // 削除ボタン
+    document.querySelectorAll(".deleteMeasurement").forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const index = Number(button.dataset.index);
+
+            deleteMeasurement(index);
+
+        });
+
+    });
 
 }
 
@@ -214,6 +218,21 @@ function clearMeasurements() {
     resultElement.innerHTML =
 
     "<p class='placeholder'>推定開始を押すと表示されます。</p>";
+
+}
+
+function deleteMeasurement(index) {
+
+    measurements.splice(index, 1);
+
+    StorageManager.save(measurements);
+
+    renderMeasurements();
+
+    map.render(measurements);
+
+    resultElement.innerHTML =
+        "<p class='placeholder'>推定開始を押すと表示されます。</p>";
 
 }
 
