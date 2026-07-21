@@ -1,8 +1,8 @@
-# 🟩 BloxdTool
+# 座標ツール
 
 **Bloxd.io Utility Toolkit**
 
-BloxdTool は、**Bloxd.io プレイヤー向けの便利ツール集**です。
+ 座標ツールは、**Bloxd.io プレイヤー向けの座標特定ツールです
 
 現在開発中 🚧
 
