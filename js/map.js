@@ -388,7 +388,7 @@ canvasToWorld(x, y){
 
         const ctx = this.ctx;
 
-        for (const m of measurements) {
+        for (const [index, m] of measurements.entries()) {
 
             const p =
                 this.worldToCanvas(
