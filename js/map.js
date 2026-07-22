@@ -31,12 +31,20 @@ class MapRenderer {
         this.showHeatmap = true;
 
         this.selectedMeasurement = -1;
+        
+        this.onMeasurementSelected = null;
 
     }
 
     setHeatmapVisible(value){
 
     this.showHeatmap = value;
+
+}
+
+    setMeasurementSelectedCallback(callback){
+
+    this.onMeasurementSelected = callback;
 
 }
 
@@ -115,12 +123,18 @@ initEvents() {
 
     });
 
-    this.selectedMeasurement=nearest;
+    this.selectedMeasurement = nearest;
 
-    this.render(
-        this.measurements,
-        this.result
-    );
+if(this.onMeasurementSelected){
+
+    this.onMeasurementSelected(nearest);
+
+}
+
+this.render(
+    this.measurements,
+    this.result
+);
 
 }
 
