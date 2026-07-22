@@ -384,7 +384,15 @@ drawHeatmap(candidates) {
 
 this.drawGrid();
 
-if (result && result.candidates) {
+if(
+
+    this.showHeatmap &&
+
+    result &&
+
+    result.candidates
+
+){
 
     this.drawHeatmap(result.candidates);
 
