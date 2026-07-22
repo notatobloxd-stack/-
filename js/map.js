@@ -288,7 +288,7 @@ canvasToWorld(x, y){
 
         const points = [];
 
-        for (const m of measurements) {
+        for (const [index, m] of measurements.entries()) {
 
             points.push({
                 x: m.x,
@@ -419,8 +419,6 @@ canvasToWorld(x, y){
             ctx.stroke();
 
             // 中心点
-            ctx.beginPath();
-
             ctx.fillStyle =
     index === this.selectedMeasurement
         ? "#ef4444"
@@ -594,10 +592,10 @@ this.measurements=measurements;
 
 this.result=result;
         
-        this.fitView(
-            measurements,
-            result
-        );
+        // this.fitView(
+//     measurements,
+//     result
+// );
 
         this.clear();
 
