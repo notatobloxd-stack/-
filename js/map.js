@@ -26,7 +26,15 @@ class MapRenderer {
 
         this.clear();
 
+        this.showHeatmap = true;
+
     }
+
+    setHeatmapVisible(value){
+
+    this.showHeatmap = value;
+
+}
 
     /**
      * 画面をクリア
