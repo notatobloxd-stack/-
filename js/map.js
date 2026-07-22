@@ -301,7 +301,7 @@ getHeatColor(t) {
 
 }
     
-    /**
+ /**
  * ヒートマップ描画
  * @param {Array} candidates
  */
@@ -316,38 +316,41 @@ drawHeatmap(candidates) {
     const bestError = candidates[0].error;
     const maxError = candidates[candidates.length - 1].error;
 
+    ctx.save();
+
     for (const c of candidates) {
 
         const p = this.worldToCanvas(c.x, c.z);
 
-        const t = (c.error - bestError) / (maxError - bestError + 0.0001);
+        const t =
+            (c.error - bestError) /
+            (maxError - bestError + 0.0001);
 
         const color = this.getHeatColor(t);
-        
-        else if (t < 0.50) {
 
-            color = "rgba(250,204,21,0.45)";
+        // 半径（ズームに応じて調整）
+        const radius = Math.max(18, this.scale * 8);
 
-        }
-        else if (t < 0.75) {
+        const gradient = ctx.createRadialGradient(
+            p.x,
+            p.y,
+            0,
+            p.x,
+            p.y,
+            radius
+        );
 
-            color = "rgba(249,115,22,0.35)";
+        gradient.addColorStop(0, color);
+        gradient.addColorStop(1, "rgba(0,0,0,0)");
 
-        }
-        else {
-
-            color = "rgba(239,68,68,0.25)";
-
-        }
-
-        ctx.fillStyle = color;
+        ctx.fillStyle = gradient;
 
         ctx.beginPath();
 
         ctx.arc(
             p.x,
             p.y,
-            4,
+            radius,
             0,
             Math.PI * 2
         );
@@ -356,8 +359,9 @@ drawHeatmap(candidates) {
 
     }
 
-}
+    ctx.restore();
 
+}
     /**
      * 全描画
      */
