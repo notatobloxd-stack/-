@@ -27,11 +27,19 @@ const resultElement =
 const canvas =
     document.getElementById("mapCanvas");
 
+const heatmapToggle =
+document.getElementById(
+    "heatmapToggle"
+);
+
 // ===============================
 // Data
 // ===============================
 
 let measurements = StorageManager.load();
+
+// 最後の計算結果を保存
+let lastResult = null;
 
 const map = new MapRenderer(canvas);
 
@@ -41,6 +49,9 @@ const map = new MapRenderer(canvas);
 
 renderMeasurements();
 map.render(measurements);
+
+heatmapToggle.checked =
+true;
 
 // ===============================
 // Events
@@ -71,6 +82,30 @@ distanceInput.addEventListener("keydown", event => {
     }
 
 });
+
+heatmapToggle.addEventListener(
+
+    "change",
+
+    () => {
+
+        map.setHeatmapVisible(
+
+            heatmapToggle.checked
+
+        );
+
+        map.render(
+
+            measurements,
+
+            lastResult
+
+        );
+
+    }
+
+);
 
 // ===============================
 // 測定追加
@@ -209,6 +244,8 @@ function clearMeasurements() {
 
     measurements = [];
 
+    lastResult = null;
+
     StorageManager.clear();
 
     renderMeasurements();
@@ -224,6 +261,8 @@ function clearMeasurements() {
 function deleteMeasurement(index) {
 
     measurements.splice(index, 1);
+
+    lastResult = null;
 
     StorageManager.save(measurements);
 
@@ -267,6 +306,8 @@ function solveMeasurements() {
 
     }
 
+lastResult = result;
+    
     resultElement.innerHTML = `
 
         <h3>推定結果</h3>
