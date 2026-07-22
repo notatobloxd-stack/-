@@ -24,6 +24,8 @@ class MapRenderer {
         this.offsetX = 0;
         this.offsetZ = 0;
 
+        this.autoFit = true;
+        
         this.clear();
 
         this.initEvents();
@@ -588,15 +590,20 @@ drawHeatmap(candidates) {
      */
     render(measurements, result = null) {
 
-this.measurements=measurements;
+    this.measurements = measurements;
+    this.result = result;
 
-this.result=result;
+    if(this.autoFit){
+
+        this.fitView(
+            measurements,
+            result
+        );
+
+        this.autoFit = false;
+
+    }
         
-        // this.fitView(
-//     measurements,
-//     result
-// );
-
         this.clear();
 
 this.drawGrid();
