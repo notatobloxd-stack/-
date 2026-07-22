@@ -31,6 +31,13 @@ class MapRenderer {
         this.showHeatmap = true;
 
         this.selectedMeasurement = -1;
+
+        this.isDragging = false;
+        
+        this.canvas.style.cursor = "grab";
+
+this.lastMouseX = 0;
+this.lastMouseY = 0;
         
         this.onMeasurementSelected = null;
 
@@ -140,13 +147,44 @@ this.render(
 
 onMouseMove(event){
 
+    if(!this.isDragging){
+        return;
+    }
+
+    const dx = event.clientX - this.lastMouseX;
+    const dy = event.clientY - this.lastMouseY;
+
+    this.lastMouseX = event.clientX;
+    this.lastMouseY = event.clientY;
+
+    this.offsetX -= dx / this.scale;
+
+    this.offsetZ += dy / this.scale;
+
+    this.render(
+        this.measurements,
+        this.result
+    );
+
 }
 
 onMouseDown(event){
 
+    this.isDragging = true;
+
+    this.lastMouseX = event.clientX;
+
+    this.lastMouseY = event.clientY;
+    
+    this.canvas.style.cursor = "grabbing";
+
 }
 
 onMouseUp(event){
+
+    this.isDragging = false;
+    
+    this.canvas.style.cursor = "grab";
 
 }
 
