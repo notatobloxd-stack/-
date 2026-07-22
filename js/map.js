@@ -26,7 +26,11 @@ class MapRenderer {
 
         this.clear();
 
+        this.initEvents();
+        
         this.showHeatmap = true;
+
+        this.selectedMeasurement = -1;
 
     }
 
@@ -36,6 +40,107 @@ class MapRenderer {
 
 }
 
+initEvents() {
+
+    this.canvas.addEventListener(
+        "click",
+        this.onClick.bind(this)
+    );
+
+    this.canvas.addEventListener(
+        "mousemove",
+        this.onMouseMove.bind(this)
+    );
+
+    this.canvas.addEventListener(
+        "mousedown",
+        this.onMouseDown.bind(this)
+    );
+
+    window.addEventListener(
+        "mouseup",
+        this.onMouseUp.bind(this)
+    );
+
+    this.canvas.addEventListener(
+        "wheel",
+        this.onWheel.bind(this),
+        { passive:false }
+    );
+
+    }
+
+    onClick(event){
+
+    const rect =
+        this.canvas.getBoundingClientRect();
+
+    const x =
+        event.clientX - rect.left;
+
+    const y =
+        event.clientY - rect.top;
+
+    let nearest = -1;
+
+    let nearestDistance = Infinity;
+
+    this.measurements.forEach((m,index)=>{
+
+        const p =
+            this.worldToCanvas(
+                m.x,
+                m.z
+            );
+
+        const d =
+            Math.hypot(
+
+                x-p.x,
+
+                y-p.y
+
+            );
+
+        if(
+            d<12 &&
+            d<nearestDistance
+        ){
+
+            nearest=index;
+
+            nearestDistance=d;
+
+        }
+
+    });
+
+    this.selectedMeasurement=nearest;
+
+    this.render(
+        this.measurements,
+        this.result
+    );
+
+}
+
+onMouseMove(event){
+
+}
+
+onMouseDown(event){
+
+}
+
+onMouseUp(event){
+
+}
+
+onWheel(event){
+
+}
+    
+    
     /**
      * 画面をクリア
      */
@@ -70,6 +175,20 @@ class MapRenderer {
 
     }
 
+canvasToWorld(x, y){
+
+    return{
+
+        x:
+            (x - this.width / 2) / this.scale + this.offsetX,
+
+        z:
+            (this.height / 2 - y) / this.scale + this.offsetZ
+
+    };
+
+}
+    
     /**
      * 表示範囲を自動調整
      */
@@ -211,17 +330,21 @@ class MapRenderer {
             ctx.beginPath();
 
             ctx.fillStyle =
-                "#3b82f6";
+    index === this.selectedMeasurement
+        ? "#ef4444"
+        : "#38bdf8";
 
-            ctx.arc(
-                p.x,
-                p.y,
-                5,
-                0,
-                Math.PI * 2
-            );
+ctx.beginPath();
 
-            ctx.fill();
+ctx.arc(
+    p.x,
+    p.y,
+    index === this.selectedMeasurement ? 8 : 5,
+    0,
+    Math.PI * 2
+);
+
+ctx.fill();
 
         }
 
@@ -375,6 +498,10 @@ drawHeatmap(candidates) {
      */
     render(measurements, result = null) {
 
+this.measurements=measurements;
+
+this.result=result;
+        
         this.fitView(
             measurements,
             result
