@@ -198,15 +198,31 @@ function renderMeasurements() {
 
             <br><br>
 
-            <button class="deleteMeasurement" data-index="${index}">
-                🗑 この測定を削除
-            </button>
+            <button class="editMeasurement" data-index="${index}">
+    ✏ 編集
+</button>
+
+<button class="deleteMeasurement" data-index="${index}">
+    🗑 この測定を削除
+</button>
         `;
 
         measurementList.appendChild(div);
 
     });
 
+document.querySelectorAll(".editMeasurement").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        const index = Number(button.dataset.index);
+
+        editMeasurement(index);
+
+    });
+
+});
+    
     // 削除ボタン
     document.querySelectorAll(".deleteMeasurement").forEach(button => {
 
@@ -255,6 +271,45 @@ function clearMeasurements() {
     resultElement.innerHTML =
 
     "<p class='placeholder'>推定開始を押すと表示されます。</p>";
+
+}
+
+function editMeasurement(index) {
+
+    const m = measurements[index];
+
+    const x = prompt("X座標", m.x);
+
+    if (x === null) return;
+
+    const z = prompt("Z座標", m.z);
+
+    if (z === null) return;
+
+    const distance = prompt("距離", m.distance);
+
+    if (distance === null) return;
+
+    measurements[index] = {
+
+        x: Number(x),
+
+        z: Number(z),
+
+        distance: Number(distance)
+
+    };
+
+    StorageManager.save(measurements);
+
+    renderMeasurements();
+
+    map.render(measurements);
+
+    lastResult = null;
+
+    resultElement.innerHTML =
+        "<p class='placeholder'>推定開始を押してください。</p>";
 
 }
 
