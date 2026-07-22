@@ -35,6 +35,8 @@ class MapRenderer {
         this.isDragging = false;
         
         this.canvas.style.cursor = "grab";
+        this.minScale = 0.2;
+this.maxScale = 10;
 
 this.lastMouseX = 0;
 this.lastMouseY = 0;
@@ -189,6 +191,44 @@ onMouseUp(event){
 }
 
 onWheel(event){
+
+    event.preventDefault();
+
+    const rect = this.canvas.getBoundingClientRect();
+
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    const worldBefore = this.canvasToWorld(
+        mouseX,
+        mouseY
+    );
+
+    const zoomFactor =
+        event.deltaY < 0 ? 1.1 : 0.9;
+
+    this.scale *= zoomFactor;
+
+    this.scale = Math.max(
+        this.minScale,
+        Math.min(this.maxScale, this.scale)
+    );
+
+    const worldAfter = this.canvasToWorld(
+        mouseX,
+        mouseY
+    );
+
+    this.offsetX +=
+        worldBefore.x - worldAfter.x;
+
+    this.offsetZ +=
+        worldBefore.z - worldAfter.z;
+
+    this.render(
+        this.measurements,
+        this.result
+    );
 
 }
     
