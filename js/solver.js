@@ -249,7 +249,7 @@ candidates.push({
 );
 
 // 上位1000件だけ保持
-return candidates.slice(0, 1000);
+return candidates.slice(0, 300);
 
     }
 
