@@ -195,16 +195,21 @@ function addMeasurement() {
 
     });
 
+    map.autoFit = true;
+    
     StorageManager.save(
         measurements
     );
 
     renderMeasurements();
 
+    map.autoFit = true;
+    
     map.render(
-        measurements
-    );
-
+    measurements,
+    lastResult
+);
+    
     playerXInput.value = "";
     playerZInput.value = "";
     distanceInput.value = "";
@@ -370,7 +375,12 @@ function deleteMeasurement(index) {
 
     renderMeasurements();
 
-    map.render(measurements);
+    map.autoFit = true;
+    
+    map.render(
+    measurements,
+    lastResult
+);
 
     resultElement.innerHTML =
         "<p class='placeholder'>推定開始を押すと表示されます。</p>";
