@@ -263,6 +263,68 @@ class MapRenderer {
     }
 
     /**
+ * ヒートマップ描画
+ * @param {Array} candidates
+ */
+drawHeatmap(candidates) {
+
+    if (!candidates || candidates.length === 0) {
+        return;
+    }
+
+    const ctx = this.ctx;
+
+    const bestError = candidates[0].error;
+    const maxError = candidates[candidates.length - 1].error;
+
+    for (const c of candidates) {
+
+        const p = this.worldToCanvas(c.x, c.z);
+
+        const t = (c.error - bestError) / (maxError - bestError + 0.0001);
+
+        let color;
+
+        if (t < 0.25) {
+
+            color = "rgba(34,197,94,0.55)";
+
+        }
+        else if (t < 0.50) {
+
+            color = "rgba(250,204,21,0.45)";
+
+        }
+        else if (t < 0.75) {
+
+            color = "rgba(249,115,22,0.35)";
+
+        }
+        else {
+
+            color = "rgba(239,68,68,0.25)";
+
+        }
+
+        ctx.fillStyle = color;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            p.x,
+            p.y,
+            4,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+    }
+
+}
+
+    /**
      * 全描画
      */
     render(measurements, result = null) {
@@ -274,15 +336,17 @@ class MapRenderer {
 
         this.clear();
 
-        this.drawGrid();
+this.drawGrid();
 
-        this.drawMeasurements(
-            measurements
-        );
+if (result && result.candidates) {
 
-        this.drawResult(
-            result
-        );
+    this.drawHeatmap(result.candidates);
+
+}
+
+this.drawMeasurements(measurements);
+
+this.drawResult(result);
 
     }
 
