@@ -430,3 +430,17 @@ button:active{
     color:white;
 
 }
+
+.editMeasurement{
+
+    background:#2563eb;
+
+    margin-right:10px;
+
+}
+
+.editMeasurement:hover{
+
+    background:#1d4ed8;
+
+}
