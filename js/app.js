@@ -32,6 +32,11 @@ document.getElementById(
     "heatmapToggle"
 );
 
+const measurementInfo =
+document.getElementById(
+    "measurementInfo"
+);
+
 // ===============================
 // Data
 // ===============================
@@ -42,6 +47,48 @@ let measurements = StorageManager.load();
 let lastResult = null;
 
 const map = new MapRenderer(canvas);
+
+map.setMeasurementSelectedCallback(
+
+    (index)=>{
+
+        if(index<0){
+
+            measurementInfo.innerHTML=`
+
+<h3>📍 選択中の測定</h3>
+
+<p class="placeholder">
+
+測定点をクリックしてください
+
+</p>
+
+`;
+
+            return;
+
+        }
+
+        const m=measurements[index];
+
+        measurementInfo.innerHTML=`
+
+<h3>📍 選択中の測定</h3>
+
+<p><b>#${index+1}</b></p>
+
+<p>X : ${m.x}</p>
+
+<p>Z : ${m.z}</p>
+
+<p>距離 : ${m.distance}m</p>
+
+`;
+
+    }
+
+);
 
 // ===============================
 // 初期化
