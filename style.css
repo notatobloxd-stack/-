@@ -410,5 +410,23 @@ button:active{
     background:#dc2626;
 
 }
+   
+.map-options{
+
+    margin-bottom:15px;
+
+}
+
+.map-options label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    cursor:pointer;
+
+    color:white;
 
 }
