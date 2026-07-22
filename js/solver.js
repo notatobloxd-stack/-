@@ -220,11 +220,7 @@ class Solver {
      */
     searchArea(minX, maxX, minZ, maxZ, step) {
 
-        let best = {
-            x: 0,
-            z: 0,
-            error: Infinity
-        };
+        const candidates = [];
 
         for (let x = minX; x <= maxX; x += step) {
 
@@ -232,21 +228,28 @@ class Solver {
 
                 const error = this.weightedError(x, z);
 
-                if (error < best.error) {
+candidates.push({
 
-                    best = {
-                        x,
-                        z,
-                        error
-                    };
+    x,
 
-                }
+    z,
+
+    error
+
+});
 
             }
 
         }
 
-        return best;
+        candidates.sort(
+
+    (a, b) => a.error - b.error
+
+);
+
+// 上位1000件だけ保持
+return candidates.slice(0, 1000);
 
     }
 
@@ -263,7 +266,7 @@ class Solver {
             b.minZ,
             b.maxZ,
             100
-        );
+        )[0];
 
     }
 
@@ -280,7 +283,7 @@ class Solver {
             coarse.z - 100,
             coarse.z + 100,
             20
-        );
+        )[0];
 
     }
 
@@ -297,7 +300,7 @@ class Solver {
             medium.z - 20,
             medium.z + 20,
             5
-        );
+        )[0];
 
     }
 
@@ -308,13 +311,23 @@ class Solver {
 
         const fine = this.fineSearch();
 
-        return this.searchArea(
-            fine.x - 5,
-            fine.x + 5,
-            fine.z - 5,
-            fine.z + 5,
-            1
-        );
+        const candidates = this.searchArea(
+
+    fine.x - 5,
+    fine.x + 5,
+    fine.z - 5,
+    fine.z + 5,
+    1
+
+);
+
+return {
+
+    best: candidates[0],
+
+    candidates
+
+};
 
     }
 
@@ -349,7 +362,9 @@ class Solver {
         const startTime = performance.now();
 
         // 最終探索
-        const best = this.finalSearch();
+        const search = this.finalSearch();
+
+const best = search.best;
 
         const averageError = this.averageError(best.x, best.z);
         const maxError = this.maxError(best.x, best.z);
@@ -368,7 +383,8 @@ class Solver {
             maxError,
             confidence,
             searchTime: Number((endTime - startTime).toFixed(2)),
-            measurements: this.measurements.length
+            measurements: this.measurements.length,
+            candidates: search.candidates
         };
 
     }
