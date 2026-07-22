@@ -262,6 +262,45 @@ class MapRenderer {
 
     }
 
+/**
+ * ヒートマップ用の色を取得
+ * @param {number} t 0.0～1.0
+ * @returns {string}
+ */
+getHeatColor(t) {
+
+    t = Math.max(0, Math.min(1, t));
+
+    let r;
+    let g;
+    let b;
+
+    if (t < 0.5) {
+
+        // 緑 → 黄
+        const k = t * 2;
+
+        r = Math.round(34 + (255 - 34) * k);
+        g = Math.round(197 + (220 - 197) * k);
+        b = Math.round(94 - 94 * k);
+
+    } else {
+
+        // 黄 → 赤
+        const k = (t - 0.5) * 2;
+
+        r = 255;
+        g = Math.round(220 - 152 * k);
+        b = 0;
+
+    }
+
+    const alpha = 0.15 + (1 - t) * 0.45;
+
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+
+}
+    
     /**
  * ヒートマップ描画
  * @param {Array} candidates
@@ -283,13 +322,8 @@ drawHeatmap(candidates) {
 
         const t = (c.error - bestError) / (maxError - bestError + 0.0001);
 
-        let color;
-
-        if (t < 0.25) {
-
-            color = "rgba(34,197,94,0.55)";
-
-        }
+        const color = this.getHeatColor(t);
+        
         else if (t < 0.50) {
 
             color = "rgba(250,204,21,0.45)";
