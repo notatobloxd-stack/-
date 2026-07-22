@@ -290,7 +290,7 @@ canvasToWorld(x, y){
 
         const points = [];
 
-        for (const [index, m] of measurements.entries()) {
+        for (const m of measurements) {
 
             points.push({
                 x: m.x,
