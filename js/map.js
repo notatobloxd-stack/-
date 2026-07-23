@@ -45,6 +45,8 @@ this.lastMouseY = 0;
         
         this.onMeasurementSelected = null;
 
+        this.onMouseCoordinateChanged = null;
+
     }
 
     setHeatmapVisible(value){
@@ -59,6 +61,12 @@ this.lastMouseY = 0;
 
 }
 
+    setMouseCoordinateCallback(callback){
+
+    this.onMouseCoordinateChanged = callback;
+
+}
+    
 initEvents() {
 
     this.canvas.addEventListener(
@@ -151,6 +159,24 @@ this.render(
 
 onMouseMove(event){
 
+    const rect = this.canvas.getBoundingClientRect();
+
+const mouseX = event.clientX - rect.left;
+
+const mouseY = event.clientY - rect.top;
+
+const world =
+    this.canvasToWorld(
+        mouseX,
+        mouseY
+    );
+
+if(this.onMouseCoordinateChanged){
+
+    this.onMouseCoordinateChanged(world);
+
+}
+    
     if(!this.isDragging){
         return;
     }
