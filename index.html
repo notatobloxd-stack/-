@@ -171,45 +171,41 @@
 
         <section class="card">
 
-            <h2>🗺️ マップ</h2>
+    <h2>🗺️ マップ</h2>
 
-            <div class="map-options">
+    <div class="map-options">
 
-    <label>
+        ...
 
-        <input
-            type="checkbox"
-            id="heatmapToggle"
-            checked>
+    </div>
 
-        ヒートマップ表示
+    <div class="mapContainer">
 
-    </label>
+        <canvas
+            id="mapCanvas"
+            width="900"
+            height="900">
+        </canvas>
 
-</div>
+        <div id="cursorInfo">
 
-            <canvas
-                id="mapCanvas"
-                width="900"
-                height="900">
+            X : --
 
-            </canvas>
+            <br>
 
-        </section>
+            Z : --
+
+        </div>
+
+    </div>
+
+</section>
 
 
 
     </main>
 
-    <div id="cursorInfo" class="card">
-
-    <h3>🖱️ カーソル座標</h3>
-
-    <p>X : --</p>
-
-    <p>Z : --</p>
-
-</div>
+    
     <!-- ===========================
          Footer
     ============================ -->
