@@ -56,13 +56,8 @@ const map = new MapRenderer(canvas);
 map.setMouseCoordinateCallback((world) => {
 
     cursorInfo.innerHTML = `
-
-<h3>🖱️ カーソル座標</h3>
-
-<p>X : ${world.x.toFixed(1)}</p>
-
-<p>Z : ${world.z.toFixed(1)}</p>
-
+X : ${world.x.toFixed(1)}<br>
+Z : ${world.z.toFixed(1)}
 `;
 
 });
