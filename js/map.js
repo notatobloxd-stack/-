@@ -38,7 +38,7 @@ class MapRenderer {
         
         this.canvas.style.cursor = "grab";
         this.minScale = 0.2;
-this.maxScale = 30;
+this.maxScale = 50;
 
 this.lastMouseX = 0;
 this.lastMouseY = 0;
