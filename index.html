@@ -5,19 +5,14 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="theme-color"
-        content="#22c55e">
+    <meta name="theme-color" content="#22c55e">
 
     <title>BloxdTool</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
 
 </head>
 
@@ -31,11 +26,26 @@
 
         <h1>座標ツール</h1>
 
-        <p>
-            made by Notato
-        </p>
+        <p>made by Notato</p>
 
     </header>
+
+    <!-- この下にページの内容 -->
+
+    <script src="script.js"></script>
+
+    <script>
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("./service-worker.js")
+                .then(() => console.log("Service Worker登録完了"))
+                .catch(err => console.error(err));
+        });
+    }
+    </script>
+
+</body>
+</html>
 
     <!-- ===========================
          Main
