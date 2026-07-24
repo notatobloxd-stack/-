@@ -1,17 +1,10 @@
 "use strict";
 
-/**
- * BloxdTool Map Renderer
- * Version: 1.0.0
- *
- * Canvas描画専用クラス
- */
+
 
 class MapRenderer {
 
-    /**
-     * @param {HTMLCanvasElement} canvas
-     */
+    
     constructor(canvas) {
 
         this.canvas = canvas;
@@ -380,32 +373,57 @@ canvasToWorld(x, y){
      */
     drawGrid() {
 
-        const ctx = this.ctx;
+    const ctx = this.ctx;
 
-        ctx.strokeStyle = "#1e293b";
-        ctx.lineWidth = 1;
+    ctx.strokeStyle = "#1e293b";
+    ctx.lineWidth = 1;
 
-        const grid = 50;
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "12px sans-serif";
 
-        for (let x = 0; x <= this.width; x += grid) {
+    const gridSize = 50;
 
-            ctx.beginPath();
-            ctx.moveTo(x, 0);
-            ctx.lineTo(x, this.height);
-            ctx.stroke();
+    const startX =
+        Math.floor((this.offsetX - this.width / 2 / this.scale) / gridSize) * gridSize;
 
-        }
+    const endX =
+        Math.ceil((this.offsetX + this.width / 2 / this.scale) / gridSize) * gridSize;
 
-        for (let y = 0; y <= this.height; y += grid) {
+    const startZ =
+        Math.floor((this.offsetZ - this.height / 2 / this.scale) / gridSize) * gridSize;
 
-            ctx.beginPath();
-            ctx.moveTo(0, y);
-            ctx.lineTo(this.width, y);
-            ctx.stroke();
+    const endZ =
+        Math.ceil((this.offsetZ + this.height / 2 / this.scale) / gridSize) * gridSize;
 
-        }
+    // 縦線
+    for (let x = startX; x <= endX; x += gridSize) {
+
+        const p = this.worldToCanvas(x, 0);
+
+        ctx.beginPath();
+        ctx.moveTo(p.x, 0);
+        ctx.lineTo(p.x, this.height);
+        ctx.stroke();
+
+        ctx.fillText(x, p.x + 3, 15);
 
     }
+
+    // 横線
+    for (let z = startZ; z <= endZ; z += gridSize) {
+
+        const p = this.worldToCanvas(0, z);
+
+        ctx.beginPath();
+        ctx.moveTo(0, p.y);
+        ctx.lineTo(this.width, p.y);
+        ctx.stroke();
+
+        ctx.fillText(z, 5, p.y - 3);
+
+    }
+
+}
 
     /**
      * 測定地点
