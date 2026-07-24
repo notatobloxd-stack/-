@@ -381,7 +381,37 @@ canvasToWorld(x, y){
     ctx.fillStyle = "#94a3b8";
     ctx.font = "12px sans-serif";
 
-    const gridSize = 50;
+    let gridSize;
+
+if (this.scale >= 8) {
+
+    gridSize = 10;
+
+} else if (this.scale >= 4) {
+
+    gridSize = 20;
+
+} else if (this.scale >= 2) {
+
+    gridSize = 50;
+
+} else if (this.scale >= 1) {
+
+    gridSize = 100;
+
+} else if (this.scale >= 0.5) {
+
+    gridSize = 200;
+
+} else if (this.scale >= 0.2) {
+
+    gridSize = 500;
+
+} else {
+
+    gridSize = 1000;
+
+}
 
     const startX =
         Math.floor((this.offsetX - this.width / 2 / this.scale) / gridSize) * gridSize;
@@ -400,12 +430,23 @@ canvasToWorld(x, y){
 
         const p = this.worldToCanvas(x, 0);
 
+        ctx.strokeStyle =
+    x === 0
+        ? "#64748b"
+        : "#1e293b";
+        
         ctx.beginPath();
         ctx.moveTo(p.x, 0);
         ctx.lineTo(p.x, this.height);
         ctx.stroke();
 
-        ctx.fillText(x, p.x + 3, 15);
+        ctx.textAlign = "center";
+
+ctx.fillText(
+    x,
+    p.x,
+    18
+);
 
     }
 
@@ -414,12 +455,23 @@ canvasToWorld(x, y){
 
         const p = this.worldToCanvas(0, z);
 
+        ctx.strokeStyle =
+    z === 0
+        ? "#64748b"
+        : "#1e293b";
+        
         ctx.beginPath();
         ctx.moveTo(0, p.y);
         ctx.lineTo(this.width, p.y);
         ctx.stroke();
 
-        ctx.fillText(z, 5, p.y - 3);
+        ctx.textAlign = "left";
+
+ctx.fillText(
+    z,
+    8,
+    p.y - 4
+);
 
     }
 
